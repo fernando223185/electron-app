@@ -1,26 +1,53 @@
 const path = require('path');
-const { app } = require('electron');
-const knex = require('knex');
+const sqlite3 = require('sqlite3').verbose();
 
-const dbPath = path.join(app.getPath('userData'), 'pos-db.sqlite');
+// Definir la ruta donde se guardará la base de datos
+const dbPath = path.join(__dirname, 'database.sqlite');
+console.log('📁 La base de datos se guardará en:', dbPath);
 
-const db = knex({
-  client: 'sqlite3',
-  connection: { filename: dbPath },
-  useNullAsDefault: true
+// Crear conexión con SQLite
+const db = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+        console.error('❌ Error al conectar con SQLite:', err.message);
+    } else {
+        console.log('✅ Conectado a la base de datos SQLite');
+    }
 });
 
 // Crear tabla de usuarios si no existe
-db.schema.hasTable('usuarios').then(exists => {
-  if (!exists) {
-    return db.schema.createTable('usuarios', table => {
-      table.increments('id').primary();
-      table.string('usuario').unique().notNullable();
-      table.string('password').notNullable();
-      table.string('nombre');
-      table.boolean('sincronizado').defaultTo(false);
+db.serialize(() => {
+    db.run(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    `, (err) => {
+        if (err) {
+            console.error('❌ Error al crear la tabla:', err.message);
+        } else {
+            console.log('✅ Tabla de usuarios creada correctamente');
+        }
     });
-  }
 });
 
-module.exports = db;
+// Función para insertar usuario
+function getUser(username, password) {
+
+    return new Promise((resolve, reject) => {
+      db.get("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row);
+        }
+      });
+    });
+}
+  
+
+
+module.exports = {
+    db,
+    getUser
+};

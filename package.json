@@ -20,6 +20,7 @@
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
     "react-scripts": "5.0.1",
+    "sqlite3": "^5.1.7",
     "wait-on": "^8.0.2",
     "web-vitals": "^2.1.4"
   },
@@ -28,7 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\""
+    "electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev": "webpack serve --config webpack.config.js"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +49,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1"
   }
 }

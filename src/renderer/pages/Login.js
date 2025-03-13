@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import logo from "../../assets/logo_expanda.png"; 
-
+import logo from "../../assets/logo_expanda.png";
+import { useAuth } from "../hooks/useAuth";
 
 const Login = () => {
+  const { loginUser, error } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -14,24 +15,20 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
+    await loginUser(formData.username, formData.password);
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-[#1D336F]">
       <div className="bg-white p-6 rounded-xl shadow-lg w-96 flex flex-col items-center">
-        {/* Ajustamos el tamaño del logo y el margen */}
+        {/* Logo */}
         <div className="relative w-full flex justify-center mb-6 mt-7">
-            <img
-            src={logo}
-            alt="Logo"
-            className="w-52 h-auto object-contain"
-            />
+          <img src={logo} alt="Logo" className="w-52 h-auto object-contain" />
         </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+        <form onSubmit={handleSubmit} className="space-y-4 w-full">
           {/* Usuario */}
           <div className="relative">
             <FontAwesomeIcon
@@ -65,6 +62,9 @@ const Login = () => {
               required
             />
           </div>
+
+          {/* Mostrar error si las credenciales son incorrectas */}
+          {error && <p className="text-red-500 text-center">{error}</p>}
 
           {/* Botón de Iniciar Sesión */}
           <button
