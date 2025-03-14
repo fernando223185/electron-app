@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./renderer/pages/Login";
-import Dashboard from "./renderer/pages/Dashboard"; // Nueva ventana del punto de venta
+import Dashboard from "./renderer/pages/Dashboard";
+import SalesMenu from  "./renderer/pages/Sales/SalesMenu"
+import POS from "./renderer/pages/Sales/Sales"
 
 
 function App() {
@@ -9,6 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/salesMenu" element={<SalesMenu />} />
+        <Route path="/sales/new" element={<POS />} />
       </Routes>
     </Router>
   );

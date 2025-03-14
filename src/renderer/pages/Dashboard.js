@@ -5,18 +5,20 @@ import {
   faBoxOpen,
   faUsers,
   faChartBar,
-  faCashRegister,
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
 import Sidebar from "../components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   // Opciones de accesos rápidos
   const quickAccess = [
-    { name: "Ventas", icon: faShoppingCart, color: "bg-blue-500", path: "/ventas" },
-    { name: "Inventario", icon: faBoxOpen, color: "bg-green-500", path: "/inventario" },
-    { name: "Clientes", icon: faUsers, color: "bg-yellow-500", path: "/clientes" },
-    { name: "Configuración", icon: faCog, color: "bg-gray-500", path: "/configuracion" },
+    { name: "Ventas", icon: faShoppingCart, color: "from-[#F29500] to-[#d77f00]", path: "/salesMenu" },
+    { name: "Inventario", icon: faBoxOpen, color: "from-green-500 to-green-700", path: "/inventario" },
+    { name: "Clientes", icon: faUsers, color: "from-yellow-500 to-yellow-700", path: "/clientes" },
+    { name: "Configuración", icon: faCog, color: "from-gray-500 to-gray-700", path: "/configuracion" },
   ];
 
   return (
@@ -25,55 +27,61 @@ const Dashboard = () => {
       <Sidebar />
 
       {/* Contenido Principal */}
-      <div className="flex-1 p-6">
-        {/* Encabezado */}
-        <h1 className="text-2xl font-semibold text-gray-800 mb-4">Bienvenido</h1>
+      <div className="flex-1 p-8">
+        {/* Encabezado con línea divisoria */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-semibold text-gray-800">Dashboard</h1>
+          <div className="h-1 w-36 bg-[#F29500] rounded mt-2"></div>
+        </div>
 
         {/* 📌 Sección de Accesos Rápidos */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {quickAccess.map((item, index) => (
             <div
               key={index}
-              className={`p-6 rounded-xl text-white flex flex-col items-center justify-center shadow-lg hover:scale-105 transition duration-300 cursor-pointer ${item.color}`}
+              onClick={() => navigate(item.path)}
+              className={`p-6 rounded-2xl text-white flex flex-col items-center justify-center 
+              shadow-lg hover:scale-105 transition duration-300 cursor-pointer 
+              bg-gradient-to-br ${item.color}`}
             >
-              <FontAwesomeIcon icon={item.icon} className="text-4xl mb-2" />
-              <span className="text-lg font-semibold">{item.name}</span>
+              <FontAwesomeIcon icon={item.icon} className="text-5xl mb-3" />
+              <span className="text-xl font-semibold">{item.name}</span>
             </div>
           ))}
         </div>
 
         {/* 📌 Sección de Métricas */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          <div className="bg-white p-4 shadow-md rounded-lg flex items-center justify-between">
+          <div className="bg-white p-6 shadow-md rounded-xl flex items-center justify-between">
             <div>
               <h3 className="text-gray-600 text-sm">Ventas Hoy</h3>
               <p className="text-2xl font-semibold text-gray-800">$12,450</p>
             </div>
-            <FontAwesomeIcon icon={faShoppingCart} className="text-gray-500 text-3xl" />
+            <FontAwesomeIcon icon={faShoppingCart} className="text-[#F29500] text-4xl" />
           </div>
 
-          <div className="bg-white p-4 shadow-md rounded-lg flex items-center justify-between">
+          <div className="bg-white p-6 shadow-md rounded-xl flex items-center justify-between">
             <div>
               <h3 className="text-gray-600 text-sm">Productos en Stock</h3>
               <p className="text-2xl font-semibold text-gray-800">2,345</p>
             </div>
-            <FontAwesomeIcon icon={faBoxOpen} className="text-gray-500 text-3xl" />
+            <FontAwesomeIcon icon={faBoxOpen} className="text-green-500 text-4xl" />
           </div>
 
-          <div className="bg-white p-4 shadow-md rounded-lg flex items-center justify-between">
+          <div className="bg-white p-6 shadow-md rounded-xl flex items-center justify-between">
             <div>
               <h3 className="text-gray-600 text-sm">Clientes Registrados</h3>
               <p className="text-2xl font-semibold text-gray-800">832</p>
             </div>
-            <FontAwesomeIcon icon={faUsers} className="text-gray-500 text-3xl" />
+            <FontAwesomeIcon icon={faUsers} className="text-yellow-500 text-4xl" />
           </div>
 
-          <div className="bg-white p-4 shadow-md rounded-lg flex items-center justify-between">
+          <div className="bg-white p-6 shadow-md rounded-xl flex items-center justify-between">
             <div>
               <h3 className="text-gray-600 text-sm">Ventas del Mes</h3>
               <p className="text-2xl font-semibold text-gray-800">$120,980</p>
             </div>
-            <FontAwesomeIcon icon={faChartBar} className="text-gray-500 text-3xl" />
+            <FontAwesomeIcon icon={faChartBar} className="text-gray-500 text-4xl" />
           </div>
         </div>
       </div>

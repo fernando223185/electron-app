@@ -24,7 +24,7 @@ const Sidebar = () => {
   // Opciones del menú
   const menuItems = [
     { name: "Inicio", icon: faHome, path: "/dashboard" },
-    { name: "Ventas", icon: faShoppingCart, path: "/ventas" },
+    { name: "Ventas", icon: faShoppingCart, path: "/salesMenu" },
     { name: "Inventario", icon: faBoxOpen, path: "/inventario" },
     { name: "Clientes", icon: faUsers, path: "/clientes" },
     { name: "Configuración", icon: faCog, path: "/configuracion" },
